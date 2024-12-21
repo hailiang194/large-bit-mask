@@ -89,7 +89,7 @@ jobs:
         - name: Check out the repository code
           uses: actions/checkout@v4
         - name: build documents
-          run: cmake -S ./ -B ./build -DBUILD_DOC=1 && cmake --build ./build --target LibraryDocs
+          run: cmake -S ./ -B ./build --DBUILD_DOCS=1 && cmake --build ./build --target LibraryDocs
         - name: Setup Pages
           uses: actions/configure-pages@v4
         - name: Upload artifact
