@@ -40,4 +40,43 @@ jobs:
               with:
                 name: test-results-ubuntu-${{matrix.compiler}}-${{ matrix.config }}-${{ matrix.build_shared }}.xml
                 path: build/test/TestResult/XML_Report.xml
-            
+
+    Pipeline-Windows:
+        strategy:
+            fail-fast: false
+            matrix:
+                compiler: ["MSVC", "gcc", "clang"]
+                config: ["Debug", "Release"]
+                build_shared: [0, 1]
+                include: 
+                    - compiler: "gcc"
+                      C: gcc
+                      CXX: g++
+                    - compiler: "clang"
+                      C: clang-cl
+                      CXX: clang-cl
+        runs-on: windows-latest
+        steps:
+            - name: build onwith compiler is ${{ matrix.compiler }} and BUILD_SHARED_LIBS=${{ matrix.build_shared }} in config=${{ matrix.config }}
+              run: echo "information os=ubuntu-latest compiler=${{ matrix.compiler }} build_shared=${{ matrix.build_shared }} config=${{ matrix.config }}"
+            - name: Checkout code
+              uses: actions/checkout@v4
+            - name: Generate project for Unix makefile
+              env:
+                CC: ${{ matrix.compiler.C }}
+                CXX: ${{ matrix.compiler.CXX }}
+              if: ${{ matrix.compiler != 'MSVC' }}
+              run: cmake -S ./ -B ./build -DRUN_TEST=1 -DBUILD_SHARED_LIBS=${{ matrix.build_shared }} -G "Unix Makefiles"
+            - name: Generate project for Visual Studio
+              if: ${{ matrix.compiler == 'MSVC' }}
+              run: cmake -S ./ -B ./build -DRUN_TEST=1 -DBUILD_SHARED_LIBS=${{ matrix.build_shared }}
+            - name: Build project
+              run: cmake --build build --config ${{ matrix.config }}
+            - name: Run test
+              run: ctest -j10 -C ${{ matrix.config }} -T test
+              working-directory: ./build
+            - name: Upload test result
+              uses: actions/upload-artifact@v4
+              with:
+                name: test-results-window-${{matrix.compiler}}-${{ matrix.config }}-${{ matrix.build_shared }}.xml
+                path: build/test/TestResult/XML_Report.xml
