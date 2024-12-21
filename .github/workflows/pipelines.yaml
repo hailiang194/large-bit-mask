@@ -25,8 +25,6 @@ jobs:
               run: echo "information os=ubuntu-latest compiler=${{ matrix.compiler }} build_shared=${{ matrix.build_shared }} config=${{ matrix.config }}"
             - name: Checkout code
               uses: actions/checkout@v4
-            - name: Install packages for Ubuntu
-              run: /bin/bash ./scripts/pre-installer/linux/debian/preinstaller.sh
             - name: Generate project for Unix makefile
               env:
                 CC: ${{ matrix.compiler.C }}
@@ -34,4 +32,9 @@ jobs:
               run: cmake -S ./ -B ./build -DRUN_TEST=1 -DBUILD_SHARED_LIBS=${{ matrix.build_shared }} -G "Unix Makefiles"
             - name: Run test
               run: -j10 -C ${{ matrix.config }} -T test --test-dir ./build
+            - name: Upload test result
+              uses: actions/upload-artifact@v4
+              with:
+                name: test-results-ubuntu-${{matrix.compiler}}-${{ matrix.config }}-${{ matrix.build_shared }}.xml
+                path: build/test/TestResult/XML_Report.xml
             
