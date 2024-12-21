@@ -16,6 +16,7 @@ add_executable(
   src/capacity_size.cpp
   src/init_bit_mask.cpp
   src/set_bit.cpp
+  src/get_bit.cpp
 )
 target_link_libraries(
     large_bit_mask_test

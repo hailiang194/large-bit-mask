@@ -33,7 +33,7 @@ protected:
         m_bitmask = NULL;
     }
 
-    bitmask_t* m_bitmask;
+    bitmask_t m_bitmask;
     size_t m_totalSize;
 };
 
@@ -68,7 +68,7 @@ protected:
         m_bitmask = NULL;
     }
 
-    bitmask_t* m_bitmask;
+    bitmask_t m_bitmask;
     size_t m_totalSize;
 };
 

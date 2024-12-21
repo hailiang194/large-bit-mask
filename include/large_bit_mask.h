@@ -30,12 +30,17 @@ extern "C"
 #endif //__cplusplus
 
 /**
+ * @brief single bit mask type
+ * 
+ */
+typedef unsigned char bit_t;
+
+/**
  * @brief bit mask type
  * 
  */
-typedef unsigned char bitmask_t;
+typedef bit_t* bitmask_t;
 
-typedef unsigned char bit_t;
 
 /**
  * @brief Get the Capacity Size object
@@ -50,16 +55,16 @@ STATIC_FUNCTION size_t getCapacitySize(size_t allocateBits);
  * 
  * @param allocatedBits allocated bits for bit mask
  * @param totalSize [out] total size of bit mask in bytes
- * @return bitmask_t* the pointer of bit mask
+ * @return bitmask_t the pointer of bit mask
  */
-EXTENDAPI bitmask_t* initBitMask(size_t allocatedBits, size_t* totalSize);
+EXTENDAPI bitmask_t initBitMask(size_t allocatedBits, size_t* totalSize);
 
 /**
  * @brief clean bit mask
  * 
  * @param bitmask the pointer of bit mask need cleaning
  */
-EXTENDAPI void cleanBitMask(bitmask_t* bitmask);
+EXTENDAPI void cleanBitMask(bitmask_t bitmask);
 
 /**
  * @brief Set bit value for specific position
@@ -70,7 +75,7 @@ EXTENDAPI void cleanBitMask(bitmask_t* bitmask);
  * @param value value of the position
  * @return int return 1 if successfully. Otherwise, 0
  */
-EXTENDAPI int setBit(bitmask_t* bitmask, size_t capacityBytes, size_t position, bit_t value);
+EXTENDAPI int setBit(bitmask_t bitmask, size_t capacityBytes, size_t position, bit_t value);
 
 /**
  * @brief get the value of bit
@@ -80,7 +85,7 @@ EXTENDAPI int setBit(bitmask_t* bitmask, size_t capacityBytes, size_t position, 
  * @param position the position of bit
  * @return bit_t the value of bit, if the return value is 0xff, get bit is invalid
  */
-EXTENDAPI bit_t getBit(bitmask_t* bitmask, size_t capacityBytes, size_t position);
+EXTENDAPI bit_t getBit(bitmask_t bitmask, size_t capacityBytes, size_t position);
 
 
 #ifdef __cplusplus

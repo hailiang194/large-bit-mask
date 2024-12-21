@@ -26,7 +26,7 @@ protected:
         m_bitmask = NULL;
     }
 
-    bitmask_t* m_bitmask;
+    bitmask_t m_bitmask;
 };
 
 TEST_P(InitBitMaskTest, TestInitWithSize)
@@ -40,8 +40,8 @@ TEST_P(InitBitMaskTest, TestInitWithSize)
         GTEST_SKIP() << "Failed to initTest";
     }
 
-    for(bitmask_t* current = m_bitmask; current < m_bitmask + totalBytes; ++current)
-        EXPECT_EQ((*current), (bitmask_t)0x0);
+    for(bit_t* current = m_bitmask; current < m_bitmask + totalBytes; ++current)
+        EXPECT_EQ((*current), (bit_t)0x0);
 }
 
 INSTANTIATE_TEST_SUITE_P(InitBitMask_Test, InitBitMaskTest, ::testing::Range(0, 1000000000, 100000000));
