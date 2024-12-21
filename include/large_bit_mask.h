@@ -1,3 +1,13 @@
+/**
+ * @file large_bit_mask.h
+ * @author Luong The Hai (hailuongthe2000@gmail.com)
+ * @brief Header file for library
+ * @version 0.1
+ * @date 2024-12-21
+ * 
+ * @copyright Copyright (c) 2024
+ * 
+ */
 #ifndef _LARGE_BIT_MASK_H_
 #define _LARGE_BIT_MASK_H_
 
@@ -41,6 +51,10 @@ typedef unsigned char bit_t;
  */
 typedef bit_t* bitmask_t;
 
+/**
+ * @example main.c
+ * Example for large bit mask library
+ */
 
 /**
  * @brief Get the Capacity Size object

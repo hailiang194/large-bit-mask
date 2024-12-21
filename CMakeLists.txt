@@ -13,6 +13,7 @@ endif()
 
 option(BUILD_SHARED_LIBS "Build shared lib" OFF)
 option(BUILD_TEST "Build unit test" ON)
+option(BUILD_DOCS "Build docs" OFF)
 option(BUILD_EXAMPLES "Build examples" ${API_IS_MAIN})
 
 set(large_bit_mask_headers
@@ -44,6 +45,10 @@ target_include_directories(large_bit_mask
         $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
 
 )
+
+if(${BUILD_DOCS})
+    add_subdirectory(docs)
+endif(${BUILD_DOCS})
 
 if(${BUILD_EXAMPLES})
     add_subdirectory(examples)

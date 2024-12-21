@@ -1,0 +1,18 @@
+if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+        set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}  ")
+endif()
+set(DOXYGEN_INPUT_FILES
+    ${CMAKE_SOURCE_DIR}/README.md 
+    ${CMAKE_SOURCE_DIR}/include
+)
+
+find_package(Doxygen REQUIRED dot)
+if(${DOXYGEN_FOUND})
+    set(DOXYGEN_GENERATE_HTML TRUE)
+    set(DOXYGEN_FULL_PATH_NAMES NO)
+    # set(DOXYGEN_STRIP_FROM_INC_PATH ${CMAKE_SOURCE_DIR})
+    set(DOXYGEN_USE_MDFILE_AS_MAINPAGE "${CMAKE_SOURCE_DIR}/README.md")
+    set(DOXYGEN_PROJECT_NAME "Large bit mask")
+    set(DOXYGEN_EXAMPLE_PATH ${CMAKE_SOURCE_DIR}/examples)
+    doxygen_add_docs(LibraryDocs ${DOXYGEN_INPUT_FILES} COMMENT "Generate Large bit mask document" )
+endif(${DOXYGEN_FOUND})
