@@ -1,0 +1,3 @@
+add_executable(example_large_bit_mask src/main.c)
+
+target_link_libraries(example_large_bit_mask PUBLIC large_bit_mask)
