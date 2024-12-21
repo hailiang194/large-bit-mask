@@ -31,7 +31,7 @@ jobs:
                 CXX: ${{ matrix.compiler.CXX }}
               run: cmake -S ./ -B ./build -DRUN_TEST=1 -DBUILD_SHARED_LIBS=${{ matrix.build_shared }} -G "Unix Makefiles"
             - name: Run test
-              run: -j10 -C ${{ matrix.config }} -T test --test-dir ./build
+              run: ctest -j10 -C ${{ matrix.config }} -T test --test-dir ./build
             - name: Upload test result
               uses: actions/upload-artifact@v4
               with:
