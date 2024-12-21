@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include <iomanip>
 #include "large_bit_mask.h"
 
 
@@ -36,6 +37,41 @@ protected:
     size_t m_totalSize;
 };
 
+
+class ScopeOfValueTest: public ::testing::TestWithParam<std::tuple<bit_t, int>>
+{
+protected:
+    ScopeOfValueTest()
+    {
+
+    }
+
+    ~ScopeOfValueTest() override
+    {
+        cleanBitMask(m_bitmask);
+        m_bitmask = NULL;
+    }
+
+    void SetUp() override
+    {
+        m_totalSize = 0x00;
+        m_bitmask = initBitMask(1, &m_totalSize);
+        if(m_bitmask == NULL)
+        {
+            GTEST_SKIP() << "Failed to initTest";
+        }
+    }
+
+    void TearDown() override
+    {
+        cleanBitMask(m_bitmask);
+        m_bitmask = NULL;
+    }
+
+    bitmask_t* m_bitmask;
+    size_t m_totalSize;
+};
+
 TEST_P(SetBitMaskTest, TestSetFirstSlotBit)
 {
     auto param = GetParam();
@@ -49,6 +85,12 @@ TEST_P(SetBitMaskTest, TestSetFirstSlotBit)
     SCOPED_TRACE(bitMaskValue.str());
     RecordProperty("bitmask", bitMaskValue.str());
     EXPECT_TRUE(*(m_bitmask + std::get<1>(param)) & (0x01 << std::get<2>(param)));
+}
+
+TEST_P(ScopeOfValueTest, TestScopeOfValue)
+{
+    auto param = GetParam();
+    EXPECT_TRUE(setBit(m_bitmask, m_totalSize, 0, std::get<0>(param)) == std::get<1>(param));  
 }
 
 INSTANTIATE_TEST_SUITE_P(SetBitMask_Test, SetBitMaskTest, ::testing::Values(
@@ -84,4 +126,16 @@ INSTANTIATE_TEST_SUITE_P(SetBitMask_Test, SetBitMaskTest, ::testing::Values(
     std::make_tuple(0x1d, 0x03, 0x05),
     std::make_tuple(0x1e, 0x03, 0x06),
     std::make_tuple(0x1f, 0x03, 0x07)
+));
+
+
+INSTANTIATE_TEST_SUITE_P(SetBitMask_Test, ScopeOfValueTest, ::testing::Values(
+    std::make_tuple(0x0, 0x1),
+    std::make_tuple(0x1, 0x1),
+    std::make_tuple(0x2, 0x0),
+    std::make_tuple(0x3, 0x0),
+    std::make_tuple(0x4, 0x0),
+    std::make_tuple(0x5, 0x0),
+    std::make_tuple(0x6, 0x0),
+    std::make_tuple(0x7, 0x0)
 ));

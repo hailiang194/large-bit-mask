@@ -41,7 +41,7 @@ int setBit(bitmask_t* bitmask, size_t capacityBytes, size_t position, bit_t valu
     }   
 
     *(bitmask + (position >> 3)) |= (value << (position & 0x7));
-    return 0;
+    return 1;
 }
 
 bit_t getBit(bitmask_t* bitmask, size_t capacityBytes, size_t position)
